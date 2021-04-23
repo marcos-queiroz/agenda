@@ -12,7 +12,7 @@
 </head>
 <body>
   
-  <?= $navbar ?>
+  <?= $menu ?>
   
   <section class="container">
     <?= $conteudo ?>

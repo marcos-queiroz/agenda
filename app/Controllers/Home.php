@@ -41,7 +41,7 @@ class Home extends BaseController
 			'Contatos' => base_url('contatos'),
 			'Contato' => base_url('contato')
 		];		
-		$data['navbar'] = view('home/padrao/navbar', $menu, ['cache' => 60]);
+		$data['menu'] = view('home/padrao/menu', $menu, ['cache' => 60]);
 
 		echo view('home/padrao/modelo', $data);
 	}

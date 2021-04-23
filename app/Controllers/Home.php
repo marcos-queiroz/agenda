@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-/**
- * Classe responsavel por carregar a estrutura do app
- */
 class Home extends BaseController
 {
 	public function index(): void
@@ -31,9 +28,6 @@ class Home extends BaseController
 		$this->modelo($data);
 	}
 
-	/**
-	 * Metodo responsavel por renderizar a view
-	 */
 	private function modelo($data): void
 	{
 		$menu['menus'] = [

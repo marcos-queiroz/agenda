@@ -32,9 +32,12 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->add('/', 'Home::index');
 $routes->get('/contatos', 'Home::contatos');
-$routes->get('/contato', 'Home::contato');
+$routes->get('/contato/(:any)', 'Home::contato/$1');
+
+// rota acessivel pelo terminal
+$routes->cli('welcome/(:any)', 'Home::welcome/$1');
 
 /*
  * --------------------------------------------------------------------

@@ -41,5 +41,6 @@ class TiposContato extends Migration
 	public function down()
 	{
 		//
+		$this->forge->dropTable('tipos_contato');
 	}
 }

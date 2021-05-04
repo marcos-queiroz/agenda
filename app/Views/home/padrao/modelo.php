@@ -10,16 +10,26 @@
   
   <title><?= $title ?></title>
 </head>
-<body>
+<body class="dv-flex">
   
-  <?= $menu ?>
+  <header>
+    <?= $menu ?>
+  </header>
   
-  <section class="container">
-    <?= $conteudo ?>
-  </section>
+  <div class="my-5">
+    <div class="container py-5">
+      <?php if(isset($msg) && !empty($msg)) {?>
+        <script>alert('<?= $msg ?>')</script>
+      <?php } ?>
 
-  <footer>
-    <p>Versão <?= $versao ?></p>
+      <?= $conteudo ?>
+    </div>
+  </div>
+
+  <footer class="footer fixed-bottom mt-auto py-3 bg-dark">
+    <div class="container">
+      <span class="text-muted">Versão <?= $versao ?></span>
+    </div>
   </footer>
   
   <!-- Option 1: Bootstrap Bundle with Popper -->

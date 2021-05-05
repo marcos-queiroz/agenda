@@ -6,11 +6,10 @@ use CodeIgniter\Model;
 
 class TipoContatoModel extends Model
 {
-	protected $DBGroup              = 'default';
 	protected $table                = 'tipos_contato';
 	protected $primaryKey           = 'id';
 	protected $returnType           = 'array';
-	protected $useSoftDelete        = true;
+	protected $useSoftDeletes        = true;
 	protected $allowedFields        = ['nome'];
 
 	// Dates

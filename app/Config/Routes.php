@@ -34,10 +34,18 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->add('/', 'Home::index');
 $routes->get('/contatos', 'Home::contatos');
-$routes->get('/contato/(:any)', 'Home::contato/$1');
 $routes->get('/novo', 'Home::formulario');
-$routes->get('/editar/(:any)', 'Home::formulario/$1');
+// C
 $routes->post('/gravar', 'Home::gravar');
+// R
+$routes->get('/visualizar/(:any)', 'Home::contato/$1');
+// U
+$routes->get('/editar/(:any)', 'Home::formulario/$1');
+// D
+$routes->get('/excluir/(:any)', 'Home::excluir/$1');
+// lixeira
+$routes->get('/lixeira', 'Home::excluidos');
+$routes->get('/desfazer/(:any)', 'Home::desfazer/$1');
 
 // rota acessivel pelo terminal
 $routes->cli('welcome/(:any)', 'Home::welcome/$1');

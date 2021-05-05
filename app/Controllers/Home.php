@@ -34,24 +34,39 @@ class Home extends BaseController
 	/**
 	 * Metodo para listar os contatos
 	 */
-	public function contatos(): void
+	public function contatos($excluido = false): void
 	{
-		$this->data['title'] = "Contatos";
+		if($excluido){
+			$this->data['title'] = "Lixeira";
+			$data['title'] = "Lixeira | Contatos Excluidos";
+		} else {
+			$this->data['title'] = "Contatos";
+			$data['title'] = "Listagem de contatos";
+		}
 		// carrega a lista de contatos
-		$data['contatos'] = $this->modelContato->findAll(); 
+		$data['contatos'] = $this->modelContato->getContatos(null, $excluido); 
+
 		// renderiza o conteudo
 		$this->data['conteudo'] = view('home/contatos', $data);
 		// carrega o template
 		$this->modelo();
 	}
+
+	/**
+	 * Metodo responsavel por listar os itens excluidos
+	 */
+	public function excluidos()
+	{
+		$this->contatos(true);
+	}
 	
 	/**
 	 * Metodo para exibir o contato
 	 */
-	public function contato($slug = null): void
+	public function contato($id = null): void
 	{
 		// carrega o contato
-		$data['contato'] = $this->modelContato->find($slug); 
+		$data['contato'] = $this->modelContato->getContatos($id); 
 		// altera o title da pagina
 		$this->data['title'] = "Contato {$data['contato']['nome']}";
 		// renderiza o conteudo
@@ -67,9 +82,11 @@ class Home extends BaseController
 	{
 		$this->data['title'] = "Novo Contato";
 
-		if($this->request->getPost()){
+		$contatoPost = session()->getFlashdata('contato');
+
+		if(!empty($contatoPost)){
 			// se existir POST captura os dados enviados pelo formulario
-			$this->data['contato'] = $this->request->getPost();
+			$this->data['contato'] = $contatoPost;
 		}else if($id){
 			// se existir ID, realiza a busca e carrega os dados
 			$this->data['contato'] = $this->modelContato->find($id);
@@ -91,8 +108,10 @@ class Home extends BaseController
 		$this->data['contato'] = $this->request->getPost();
 		
 		if($this->modelContato->save($this->data['contato']) === false){
-			$erros = $this->modelContato->errors();
-			session()->setFlashdata('erros', $erros);
+			// captura os erros da validacao
+			session()->setFlashdata('erros', $this->modelContato->errors());
+			// captura os dados enviados pelo post
+			session()->setFlashdata('contato', $this->data['contato']);			
 			// carrega o ID
 			$id = $this->request->getPost('id');
 			// verifica se ID esta preenchido
@@ -108,6 +127,34 @@ class Home extends BaseController
 	}
 
 	/**
+	 * Metodo responsavel por excluir um registro
+	 */
+	public function excluir($id)
+	{
+		if($this->modelContato->delete($id)){
+			session()->setFlashdata('msg', "Contato Excluído");
+		} else {
+			session()->setFlashdata('msg', "Erro ao tentar excluir o contato!");
+		}
+		return redirect()->back(); 
+	}
+
+	/**
+	 * Metodo responsavel por desfazer a exclusao de um registro
+	 */
+	public function desfazer($id)
+	{
+		$data = ['apagado_em' => null];
+
+		if($this->modelContato->update($id, $data)){
+			session()->setFlashdata('msg', "Exclusão desfeita");
+		} else {
+			session()->setFlashdata('msg', "Erro ao tentar realizar a operação!");
+		}
+		return redirect()->back(); 
+	}
+
+	/**
 	 * Metodo que contem o modelo do layout
 	 */
 	private function modelo(): void
@@ -117,6 +164,7 @@ class Home extends BaseController
 			'Home' => base_url(),
 			'Contatos' => base_url('contatos'),
 			'Novo' => base_url('novo'),
+			'Lixeira' => base_url('lixeira'),
 		];
 		// carrega o menu
 		$this->data['menu'] = view('home/padrao/menu', $menu);

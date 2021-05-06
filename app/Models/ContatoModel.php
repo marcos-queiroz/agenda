@@ -36,6 +36,9 @@ class ContatoModel extends Model
 	];
 
 
+	/**
+	 * Metodo responsavel por listar os contatos de forma tratada
+	 */
 	public function getContatos(int $id = null, bool $excluido = false)
 	{
 		$this
@@ -48,7 +51,8 @@ class ContatoModel extends Model
 			if($excluido){
 				$this->onlyDeleted();
 			} 
-			return $this->findAll();
+			
+			return $this->orderBy('nome')->paginate(4);
 		}
 
 	}

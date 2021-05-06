@@ -20,8 +20,11 @@
   
   <div class="my-5">
     <div class="container py-5">
-      <?php if(isset($msg) && !empty($msg)) {?>
-        <script>alert('<?= $msg ?>')</script>
+      <?php if(isset($msg) && !empty($msg)) { ?>
+        <div class="alert alert-<?= $msg['type'] ?> alert-dismissible fade show" role="alert">
+          <?= $msg['text'] ?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       <?php } ?>
 
       <?= $conteudo ?>

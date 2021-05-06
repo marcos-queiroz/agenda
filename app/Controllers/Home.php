@@ -45,9 +45,13 @@ class Home extends BaseController
 		}
 		// carrega a lista de contatos
 		$data['contatos'] = $this->modelContato->getContatos(null, $excluido); 
+		$data['pager'] = $this->modelContato->pager->links();
+		
+		$data['base_url'] = base_url();
+		$data['excluido'] = $excluido;
 
 		// renderiza o conteudo
-		$this->data['conteudo'] = view('home/contatos', $data);
+		$this->data['conteudo'] = $this->view->render('home/contatos.html', $data);
 		// carrega o template
 		$this->modelo();
 	}
@@ -95,7 +99,7 @@ class Home extends BaseController
 			$this->data['contato'] = ['id' => null, 'nome' => null, 'tipo_contato_id' => null, 'celular' => null, 'telefone' => null, 'email' => null];
 		}
 		// renderiza o conteudo
-		$this->data['conteudo'] = view('home/novo', $this->data);
+		$this->data['conteudo'] = view('home/formulario', $this->data);
 		// carrega o template
 		$this->modelo();
 	}
@@ -121,7 +125,7 @@ class Home extends BaseController
 				return redirect()->to('novo');
 			}
 		} else {
-			session()->setFlashdata('msg', "Gravado com Sucesso");
+			session()->setFlashdata('msg', ["text" => "Gravado com Sucesso", "type" => "success"]);
 			return redirect()->to('contatos'); 
 		}
 	}
@@ -132,9 +136,9 @@ class Home extends BaseController
 	public function excluir($id)
 	{
 		if($this->modelContato->delete($id)){
-			session()->setFlashdata('msg', "Contato Excluído");
+			session()->setFlashdata('msg', ["text" => "Contato Excluído", "type" => "success"]);
 		} else {
-			session()->setFlashdata('msg', "Erro ao tentar excluir o contato!");
+			session()->setFlashdata('msg', ["text" => "Erro ao tentar excluir o contato!", "type" => "danger"]);
 		}
 		return redirect()->back(); 
 	}
@@ -147,9 +151,9 @@ class Home extends BaseController
 		$data = ['apagado_em' => null];
 
 		if($this->modelContato->update($id, $data)){
-			session()->setFlashdata('msg', "Exclusão desfeita");
+			session()->setFlashdata('msg', ["text" => "Exclusão desfeita", "type" => "success"]);
 		} else {
-			session()->setFlashdata('msg', "Erro ao tentar realizar a operação!");
+			session()->setFlashdata('msg', ["text" => "Erro ao tentar realizar a operação!", "type" => "danger"]);
 		}
 		return redirect()->back(); 
 	}

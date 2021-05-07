@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -10,34 +10,34 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   
-  <title><?= $title ?></title>
+  <title>{{ title }}</title>
+
+  {% block estilo %}
+    <!-- style da pagina -->
+  {% endblock %}
 </head>
 <body class="dv-flex">
-  
-  <header>
-    <?= $menu ?>
-  </header>
+
+  {{ include('home/padrao/menu.html') }}
   
   <div class="my-5">
     <div class="container py-5">
-      <?php if(isset($msg) && !empty($msg)) { ?>
-        <div class="alert alert-<?= $msg['type'] ?> alert-dismissible fade show" role="alert">
-          <?= $msg['text'] ?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      <?php } ?>
+      {{ include('home/padrao/msg.html') }}
 
-      <?= $conteudo ?>
+      {% block conteudo %}
+        Conteúdo da pagina
+      {% endblock %}
+
     </div>
   </div>
 
-  <footer class="footer fixed-bottom mt-auto py-3 bg-dark">
-    <div class="container">
-      <span class="text-muted">Versão <?= $versao ?></span>
-    </div>
-  </footer>
+  {{ include('home/padrao/footer.html') }}
   
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+  {% block script %}
+    <!-- scripts da pagina -->
+  {% endblock %}
 </body>
 </html>

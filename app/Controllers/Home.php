@@ -28,7 +28,7 @@ class Home extends BaseController
       'Novo' => base_url('novo'),
       'Lixeira' => base_url('lixeira'),
     ];
-    $this->data['versao'] = "0.0.2";
+    $this->data['versao'] = "0.0.1";
   }
   
   public function index(): string
